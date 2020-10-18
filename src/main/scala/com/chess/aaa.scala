@@ -8,11 +8,11 @@ object aaa extends App {
 
   import scala.Console.{BOLD, RESET, REVERSED}
 
-  println(BoardView(Board.build(true)))
+  println(BoardView(Board.build()))
   println("")
   println("")
   println("")
   println("")
-  println(BoardView(Board.build(false)))
+  println(BoardView(Board.build()))
 
 }

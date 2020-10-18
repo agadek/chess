@@ -1,7 +1,10 @@
 package com.chess.pieces
 
 
-case class Board(board: Vector[Option[Piece]] = Vector.fill(64)(Option.empty[Piece]))
+case class Board(board: Vector[Option[Piece]] = Vector.fill(64)(Option.empty[Piece])){
+
+
+}
 
 object Board {
 
@@ -9,12 +12,12 @@ object Board {
 
   private def figures(white: Boolean): Vector[Option[Piece]] = Vector(Rook(white), Bishop(white), Knight(white), Queen(white), King(white), Knight(white), Bishop(white), Rook(white)).map(Option(_))
 
-  def build(whiteOnTop: Boolean) =
+  def build() =
     Board(board =
-      figures(whiteOnTop) ++
-        pawns(whiteOnTop) ++
+      figures(false) ++
+        pawns(false) ++
         Vector.fill(32)(Option.empty[Piece]) ++
-        pawns(!whiteOnTop) ++
-        figures(!whiteOnTop)
+        pawns(true) ++
+        figures(true)
     )
 }

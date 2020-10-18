@@ -6,12 +6,12 @@ object PieceView {
   def apply(piece: Piece): Char = {
 
     val name = piece match {
-      case Pawn(_) => 'P'
-      case King(_) => 'K'
-      case Queen(_) => 'Q'
-      case Rook(_) => 'R'
-      case Knight(_) => 'N'
-      case Bishop(_) => 'B'
+      case Pawn(_, _) => 'P'
+      case King(_, _) => 'K'
+      case Queen(_, _) => 'Q'
+      case Rook(_, _) => 'R'
+      case Knight(_, _) => 'N'
+      case Bishop(_, _) => 'B'
     }
     if (piece.isWhite)
       name.toUpper
