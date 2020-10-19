@@ -1,7 +1,8 @@
 package com.chess.view
 
-import com.chess.pieces.Board
+import com.chess.pieces.Pawn
 import com.chess.view.ViewUtil.BackgroundRemover
+import com.chess.{Address, Board}
 import org.scalatest.flatspec.AnyFlatSpec
 import org.scalatest.matchers.should.Matchers.convertToAnyShouldWrapper
 
@@ -37,6 +38,25 @@ class BoardViewSpec extends AnyFlatSpec {
         |3        3
         |2PPPPPPPP2
         |1RBNQKNBR1
+        |-ABCDEFGH-""".stripMargin
+  }
+
+  it should "display proper Board with some figures" in {
+
+    val address = Seq("C6", "E6", "D5", "C4", "E4").map(Address(_).toOption.get)
+
+    val board = address.foldLeft(Board())((board, address) => board.set(address, Pawn(isWhite = true)).toOption.get)
+
+    BoardView(board).removeBackground shouldBe
+      """-ABCDEFGH-
+        |8        8
+        |7        7
+        |6  P P   6
+        |5   P    5
+        |4  P P   4
+        |3        3
+        |2        2
+        |1        1
         |-ABCDEFGH-""".stripMargin
   }
 }

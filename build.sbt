@@ -18,5 +18,6 @@ scalacOptions := Seq(
   "-Xfatal-warnings")
 
 libraryDependencies ++= Seq(
-  "org.scalatest" %% "scalatest" % Versions.scalatest % "test"
+  "org.scalatest" %% "scalatest" % Versions.scalatest % "test",
+  "org.typelevel" %% "cats-core" % "2.0.0"
 )

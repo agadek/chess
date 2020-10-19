@@ -1,6 +1,6 @@
 package com.chess.pieces.paths
 
-import com.chess.pieces.Board
+import com.chess.Board
 import org.scalatest.flatspec.AnyFlatSpec
 import org.scalatest.matchers.should.Matchers.convertToAnyShouldWrapper
 

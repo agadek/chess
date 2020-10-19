@@ -1,6 +1,7 @@
 package com.chess.view
 
-import com.chess.pieces.{Board, Piece}
+import com.chess.Board
+import com.chess.pieces.Piece
 
 import scala.Console.{BOLD, RESET, REVERSED}
 
