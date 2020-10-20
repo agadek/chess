@@ -20,7 +20,7 @@ sealed trait Path {
     board(location).isEmpty
 
   protected def locationTaken(location: Int)(implicit board: Vector[Option[Piece]]): Boolean =
-    !locationTaken(location)
+    !locationEmpty(location)
 
   protected def locationInBoundaries(location: Int, leftEdge: Option[Int], rightEdge: Option[Int]): Boolean =
     leftEdge.exists(_ <= location) && rightEdge.exists(_ >= location)
@@ -56,10 +56,10 @@ object HorizontalPath extends Path {
   private def checkPath(length: Int, toLeft: Boolean, leftEdge: Option[Int], rightEdge: Option[Int], location: Int, endsWithAttack: Boolean, acc: Seq[Int] = Seq.empty)(implicit board: Vector[Option[Piece]]): Seq[Int] = {
     val sideFactor = if (toLeft) -1 else 1
     val endLocation = location + sideFactor
-    if (length > 0 && locationInBoundaries(endLocation, leftEdge, rightEdge) && locationEmpty(location)) {
+    if (length > 0 && locationInBoundaries(endLocation, leftEdge, rightEdge) && locationEmpty(endLocation)) {
       checkPath((length - (1 * length.sign)), toLeft, leftEdge: Option[Int], rightEdge: Option[Int], endLocation, endsWithAttack, acc :+ endLocation)
     }
-    else if (endsWithAttack && length > 0 && locationInBoundaries(endLocation, leftEdge, rightEdge) && locationTaken(location)) {
+    else if (endsWithAttack && length > 0 && locationInBoundaries(endLocation, leftEdge, rightEdge) && locationTaken(endLocation)) {
       acc :+ endLocation
     }
     else acc

@@ -5,7 +5,7 @@ version := "0.1"
 scalaVersion := "2.13.3"
 
 val Versions = new {
-  val scalatest = "3.2.0"
+  val scalatest = "3.2.2"
 }
 
 scalacOptions := Seq(
