@@ -1,4 +1,4 @@
-package com.chess
+package com.chess.game
 
 import cats.syntax.either._
 
@@ -10,6 +10,7 @@ case class Game(currentPlayer: Player = White, board: Board = Board.build()) {
       .leftMap(BoardErrorWrapper)
       .map(newBoard => this.copy(currentPlayer = currentPlayer.switch, newBoard))
 
+  def currentPlayerHasLegalMoves: Boolean = true
 }
 
 

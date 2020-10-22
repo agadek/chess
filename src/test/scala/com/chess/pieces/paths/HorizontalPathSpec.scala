@@ -1,12 +1,9 @@
 package com.chess.pieces.paths
 
-import com.chess.{Address, Board}
+import com.chess.game.{Address, Board}
 import com.chess.pieces.Pawn
 import org.scalatest.flatspec.AnyFlatSpec
 import org.scalatest.matchers.should.Matchers.convertToAnyShouldWrapper
-import com.whitehatgaming.UserInput
-
-import scala.jdk.CollectionConverters._
 
 class HorizontalPathSpec extends AnyFlatSpec {
   behavior of "HorizontalPath"

@@ -1,7 +1,7 @@
 package com.chess.pieces.paths
 
+import com.chess.game.{Address, Board}
 import com.chess.pieces.Pawn
-import com.chess.{Address, Board}
 import org.scalatest.EitherValues
 import org.scalatest.flatspec.AnyFlatSpec
 import org.scalatest.matchers.should.Matchers.convertToAnyShouldWrapper

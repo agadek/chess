@@ -1,4 +1,4 @@
-package com.chess
+package com.chess.game
 
 import org.scalatest.EitherValues
 import org.scalatest.flatspec.AnyFlatSpec

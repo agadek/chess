@@ -1,7 +1,6 @@
 package com.chess.pieces
 
-import com.chess.view.BoardView
-import com.chess.{Address, Board}
+import com.chess.game.{Address, Board}
 import org.scalatest.EitherValues
 import org.scalatest.flatspec.AnyFlatSpec
 import org.scalatest.matchers.should.Matchers.convertToAnyShouldWrapper
@@ -26,7 +25,6 @@ class PieceSpec extends AnyFlatSpec with EitherValues{
     val enemyAddress = Address("E3").toOption.get
     implicit val board = emptyBoard.set(address, pawn).toOption.get
                                     .set(enemyAddress, enemy).toOption.get.board
-
 
     pawn.availableMoves(address.filedIndex) shouldBe Set(43, 44)
   }
@@ -55,8 +53,6 @@ class PieceSpec extends AnyFlatSpec with EitherValues{
                                       .set(enemyAddress1, enemy1).toOption.get
                                       .set(enemyAddress2, enemy2).toOption.get
                                       .board
-
-//    println(BoardView(Board((board))))
 
     rook.availableMoves(address.filedIndex).toList.sortBy(identity) shouldBe Set(24, 17, 9, 33, 41, 49, 57, 26, 27, 28, 29).toList.sortBy(identity)
   }
@@ -89,8 +85,6 @@ class PieceSpec extends AnyFlatSpec with EitherValues{
                                     .set(enemyAddress2, enemy2).toOption.get
                                     .board
 
-//    println(BoardView(Board((board))))
-
     knight.availableMoves(address.filedIndex) shouldBe Set(26, 35, 51, 58, 56)
   }
 
@@ -122,7 +116,6 @@ class PieceSpec extends AnyFlatSpec with EitherValues{
                                       .set(enemyAddress2, enemy2).toOption.get
                                       .board
 
-    //    println(BoardView(Board((board))))
     bishop.availableMoves(address.filedIndex).toList.sortBy(identity) shouldBe Set(18, 36, 41, 34, 20, 13, 6).toList.sortBy(identity)
   }
 
@@ -154,7 +147,6 @@ class PieceSpec extends AnyFlatSpec with EitherValues{
                                       .set(enemyAddress2, enemy2).toOption.get
                                       .board
 
-    //        println(BoardView(Board((board))))
     queen.availableMoves(address.filedIndex).toList.sortBy(identity) shouldBe Set(3, 11, 12, 5, 18, 17, 27, 35, 20, 21, 22, 23, 40, 33, 26, 28, 37, 46, 55).toList.sortBy(identity)
   }
 

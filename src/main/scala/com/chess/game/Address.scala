@@ -1,4 +1,4 @@
-package com.chess
+package com.chess.game
 
 import cats.syntax.either._
 

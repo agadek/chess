@@ -1,9 +1,9 @@
-package com.chess
+package com.chess.game
 
-import com.chess.pieces._
-import cats.syntax.traverse._
 import cats.instances.either._
 import cats.instances.vector._
+import cats.syntax.traverse._
+import com.chess.pieces._
 
 
 case class Board(

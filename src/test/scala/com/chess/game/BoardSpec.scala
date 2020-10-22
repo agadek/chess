@@ -1,5 +1,6 @@
-package com.chess
+package com.chess.game
 
+import com.chess.game
 import com.chess.pieces.{King, Queen, Rook}
 import com.chess.view.BoardView
 import com.chess.view.ViewUtil.BackgroundRemover
@@ -172,7 +173,7 @@ class BoardSpec extends AnyFlatSpec with EitherValues {
         |-ABCDEFGH-""".stripMargin
 
     newBoard.checkKingStatus(White)            shouldBe Right(())
-    newBoard.checkKingStatus(Black).left.value shouldBe PossibleCheck(Black, Vector((whiteQueen, addressRookA)))
+    newBoard.checkKingStatus(Black).left.value shouldBe game.PossibleCheck(Black, Vector((whiteQueen, addressRookA)))
     newBoard.kiaBlack                          should contain(blackRook)
 
   }
