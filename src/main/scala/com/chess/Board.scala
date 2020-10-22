@@ -11,11 +11,9 @@ case class Board(
                   kiaWhites: Seq[Piece] = Seq.empty,
                   kiaBlack: Seq[Piece] = Seq.empty) {
 
-
-  def set(address: Address, piece: Piece): Either[AlreadyTakenAddress, Board] = {
+  def set(address: Address, piece: Piece): Either[AlreadyTakenAddress, Board] =
     if (board(address.filedIndex).isEmpty) Right(this.copy(board.updated(address.filedIndex, Some(piece))))
     else Left(AlreadyTakenAddress(address))
-  }
 
   def clear(address: Address): Either[EmptyAddress, Board] =
     board(address.filedIndex).toRight(EmptyAddress(address))
@@ -23,6 +21,12 @@ case class Board(
         if (piece.isWhite) this.copy(board = board.updated(address.filedIndex, None), kiaWhites = kiaWhites :+ piece)
         else this.copy(board = board.updated(address.filedIndex, None), kiaBlack = kiaBlack :+ piece)
       }
+
+  def kill(address: Address): Board = board(address.filedIndex) match {
+      case Some(piece) if piece.isWhite => this.copy(board = board.updated(address.filedIndex, None), kiaWhites = kiaWhites :+ piece)
+      case Some(piece)                  => this.copy(board = board.updated(address.filedIndex, None), kiaBlack = kiaBlack :+ piece)
+      case _                            => this
+    }
 
   def checkKingStatus(implicit player: Player): Either[BoardError, Unit] = {
     case class PossibleAttacks(piece: Piece, from:Int, to:Set[Int]){
@@ -48,27 +52,25 @@ case class Board(
     } yield result
   }
 
-  private def getPieceFrom(address: Address)(implicit player: Player): Either[BoardError, Piece] = {
-
+  private def getPieceFrom(address: Address)(implicit player: Player): Either[BoardError, Piece] =
     board(address.filedIndex).toRight(EmptyAddress(address))
       .flatMap {
         case piece if piece.isWhite == player.isWhite => Right(piece)
         case piece                                    => Left(NotYoursPiece(address, player, piece))
       }
-  }
+
 
 
   def move(from: Address, to: Address)(implicit player: Player): Either[BoardError, Board] =
-    {
       for {
         piece   <- getPieceFrom(from)
         _       <- Either.cond(from != to, (), InvalidMove(from, to))
         _       <- Either.cond(piece.availableMoves(from.filedIndex)(board = this.board).contains(to.filedIndex), (), InvalidMove(from, to))
         board   <- clear(from)
-        board2  <- board.set(to, piece.setMoved)
-        _       <- board2.checkKingStatus
-      } yield board2
-    }
+        board2  = board.kill(to)
+        board3  <- board2.set(to, piece.setMoved)
+        _       <- board3.checkKingStatus
+      } yield board3
 
 }
 

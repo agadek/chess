@@ -5,6 +5,7 @@ import com.chess.view.BoardView
 import com.chess.view.ViewUtil.BackgroundRemover
 import org.scalatest.EitherValues
 import org.scalatest.flatspec.AnyFlatSpec
+import org.scalatest.matchers.must.Matchers.contain
 import org.scalatest.matchers.should.Matchers.convertToAnyShouldWrapper
 
 class BoardSpec extends AnyFlatSpec with EitherValues {
@@ -117,7 +118,6 @@ class BoardSpec extends AnyFlatSpec with EitherValues {
     val addressQueen = Address("A8").toOption.get
     val blackRook = Rook(isWhite = false)
     val addressRookA = Address("C8").toOption.get
-    val addressRookB = Address("C7").toOption.get
     val board = emptyBoard.set(addressQueen, whiteQueen).toOption.get
       .set(addressRookA, blackRook).toOption.get
 
@@ -136,4 +136,44 @@ class BoardSpec extends AnyFlatSpec with EitherValues {
     board.move(addressQueen, blackKingAddress).left.value shouldBe InvalidMove(addressQueen, blackKingAddress)
   }
 
+  it should "be able to kill enemy!" in {
+    implicit val player = White
+    val whiteQueen = Queen(isWhite = true)
+    val addressQueen = Address("A8").toOption.get
+    val blackRook = Rook(isWhite = false)
+    val addressRookA = Address("C8").toOption.get
+    val board = emptyBoard.set(addressQueen, whiteQueen).toOption.get
+                            .set(addressRookA, blackRook).toOption.get
+
+    BoardView(board).removeBackground shouldBe
+      """-ABCDEFGH-
+        |8Q r    k8
+        |7        7
+        |6        6
+        |5        5
+        |4        4
+        |3        3
+        |2        2
+        |1       K1
+        |-ABCDEFGH-""".stripMargin
+
+    val newBoard = board.move(addressQueen, addressRookA).toOption.get
+
+    BoardView(newBoard).removeBackground shouldBe
+      """-ABCDEFGH-
+        |8  Q    k8
+        |7        7
+        |6        6
+        |5        5
+        |4        4
+        |3        3
+        |2        2
+        |1       K1
+        |-ABCDEFGH-""".stripMargin
+
+    newBoard.checkKingStatus(White)            shouldBe Right(())
+    newBoard.checkKingStatus(Black).left.value shouldBe PossibleCheck(Black, Vector((whiteQueen, addressRookA)))
+    newBoard.kiaBlack                          should contain(blackRook)
+
+  }
 }
