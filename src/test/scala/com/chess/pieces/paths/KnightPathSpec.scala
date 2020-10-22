@@ -1,13 +1,15 @@
 package com.chess.pieces.paths
 
 import com.chess.Board
+import com.chess.pieces.Pawn
 import org.scalatest.flatspec.AnyFlatSpec
 import org.scalatest.matchers.should.Matchers.convertToAnyShouldWrapper
 
 class KnightPathSpec extends AnyFlatSpec {
-  behavior of "ForwardPath"
+  behavior of "KnightPath"
   val emptyBoard: Board = Board()
   implicit val board = emptyBoard.board
+  implicit val piece = Pawn(isWhite = true)
 
   it should "return all steps for Knight in the middle of board" in {
     KnightPath(1, 35).toSet shouldBe Seq(25, 18, 20, 29, 41, 50, 52, 45).toSet

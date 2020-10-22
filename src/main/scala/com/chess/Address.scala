@@ -3,9 +3,10 @@ package com.chess
 import cats.syntax.either._
 
 case class Address(col: Int, row: Int) {
-  override def toString = Address.alfaCol(col).toString + row
+  override def toString: String = Address.alfaCol(col).toString + (8 - row)
+  def print: String = super.toString
 
-  def filedIndex = (8 - row) * 8 + col
+  def filedIndex = row * 8 + col
 }
 
 object Address {
@@ -15,10 +16,13 @@ object Address {
 
   def numericCol(col: Char): Int = col.toInt - 65
 
+  def apply(location: Int): Either[InvalidAddress, Address] =
+    Either.cond(0 <= location && location <= 63, Address(location % 8, location / 8), InvalidAddress(location.toString))
+
   def apply(address: String): Either[InvalidAddress, Address] = {
 
     address match {
-      case r(col, row) => Either.catchNonFatal(Address(numericCol(col.toUpperCase.head), row.toInt)).leftMap(_ => InvalidAddress(address))
+      case r(col, row) => Either.catchNonFatal(Address(numericCol(col.toUpperCase.head), 8 - row.toInt)).leftMap(_ => InvalidAddress(address))
       case _           => Left(InvalidAddress(address))
     }
   }

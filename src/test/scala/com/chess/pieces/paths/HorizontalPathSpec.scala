@@ -12,6 +12,7 @@ class HorizontalPathSpec extends AnyFlatSpec {
   behavior of "HorizontalPath"
   val emptyBoard: Board = Board()
   implicit val board = emptyBoard.board
+  implicit val piece = Pawn(isWhite = true)
 
   it should "return one step horizontally" in {
     HorizontalPath(1, 35) shouldBe Seq(34, 36)
@@ -38,15 +39,15 @@ class HorizontalPathSpec extends AnyFlatSpec {
   }
 
   behavior of "HorizontalPath with obstacles"
-  it should "return break long path down if blocked" in {
-    implicit val board = emptyBoard.set(Address("F4").toOption.get, Pawn(true)).toOption.get.board
+  it should "return break long path down if blocked by same player pawn" in {
+    implicit val board = emptyBoard.set(Address("F4").toOption.get, Pawn(isWhite = true)).toOption.get.board
 
-    HorizontalPath(length = 8, location = 35, endsWithAttack = false).toSet shouldBe Seq(32, 33, 34, 36).toSet
+    HorizontalPath(length = 8, location = 35).toSet shouldBe Seq(32, 33, 34, 36).toSet
   }
 
   it should "return break long path down if blocked and allow attack when possible" in {
-    implicit val board = emptyBoard.set(Address("F4").toOption.get, Pawn(true)).toOption.get.board
+    implicit val board = emptyBoard.set(Address("F4").toOption.get, Pawn(isWhite = false)).toOption.get.board
 
-    HorizontalPath(8, 35, endsWithAttack = true).toSet shouldBe Seq(32, 33, 34, 36, 37).toSet
+    HorizontalPath(8, 35, attack = true).toSet shouldBe Seq(37).toSet
   }
 }

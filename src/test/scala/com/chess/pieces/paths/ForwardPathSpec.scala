@@ -10,6 +10,7 @@ class ForwardPathSpec extends AnyFlatSpec {
   behavior of "ForwardPath"
   val emptyBoard: Board = Board()
   implicit val board = emptyBoard.board
+  implicit val piece = Pawn(isWhite = true)
 
   it should "return one step down" in {
     ForwardPath(1, 0) shouldBe Seq(8)
@@ -37,14 +38,14 @@ class ForwardPathSpec extends AnyFlatSpec {
 
   behavior of "ForwardPath with obstacles"
   it should "return break long path down if blocked" in {
-    implicit val board = emptyBoard.set(Address("A4").toOption.get, Pawn(true)).toOption.get.board
+    implicit val board = emptyBoard.set(Address("A4").toOption.get, Pawn(isWhite = true)).toOption.get.board
 
-    ForwardPath(length = 10, location = 0, endsWithAttack = false).toSet shouldBe Seq(8, 16, 24).toSet
+    ForwardPath(length = 10, location = 0, attack = false).toSet shouldBe Seq(8, 16, 24).toSet
   }
 
   it should "return break long path down if blocked and allow attack when possible" in {
-    implicit val board = emptyBoard.set(Address("A4").toOption.get, Pawn(true)).toOption.get.board
+    implicit val board = emptyBoard.set(Address("A4").toOption.get, Pawn(isWhite = false)).toOption.get.board
 
-    ForwardPath(length = 10, location = 0, endsWithAttack = true).toSet shouldBe Seq(8, 16, 24, 32).toSet
+    ForwardPath(length = 10, location = 0, attack = true) shouldBe Seq(32)
   }
 }

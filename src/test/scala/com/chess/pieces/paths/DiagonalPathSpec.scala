@@ -10,6 +10,7 @@ class DiagonalPathSpec extends AnyFlatSpec with EitherValues{
   behavior of "DiagonalPath"
   val emptyBoard: Board = Board()
   implicit val board = emptyBoard.board
+  implicit val piece = Pawn(isWhite = true)
 
   it should "return one step down-right" in {
     DiagonalPath(1, 0) shouldBe Seq(9)
@@ -45,27 +46,27 @@ class DiagonalPathSpec extends AnyFlatSpec with EitherValues{
 
   behavior of "DiagonalPath with obstacles"
   it should "return break long diagonal path down-left and down-right if blocked" in {
-    implicit val board = emptyBoard.set(Address("B6").toOption.get, Pawn(true)).toOption.get.board
+    implicit val board = emptyBoard.set(Address("B6").toOption.get, Pawn(isWhite = true)).toOption.get.board
 
-    DiagonalPath(length = 8, location = 3, endsWithAttack = false).toSet shouldBe Seq(10, 12, 21, 30, 39).toSet
+    DiagonalPath(length = 8, location = 3, attack = false).toSet shouldBe Seq(10, 12, 21, 30, 39).toSet
   }
 
-  it should "return break long diagonal path down-left and down-right if blocked and allow attack when possible" in {
-    implicit val board = emptyBoard.set(Address("B6").toOption.get, Pawn(true)).toOption.get.board
+  it should "return diagonal down-left and down-right attack when possible" in {
+    implicit val board = emptyBoard.set(Address("B6").toOption.get, Pawn(isWhite = false)).toOption.get.board
 
-    DiagonalPath(length = 8, location = 3, endsWithAttack = true).toSet shouldBe Seq(17, 10, 12, 21, 30, 39).toSet
+    DiagonalPath(length = 8, location = 3, attack = true) shouldBe Seq(17)
   }
 
   it should "return empty set if nothing to attack" in {
     implicit val board = emptyBoard.board
 
-    DiagonalPath(length = 1, location = 0, endsWithAttack = true, attackOnly = true).toSet shouldBe Seq().toSet
+    DiagonalPath(length = 1, location = 0, attack = true).toSet shouldBe Seq().toSet
   }
 
   it should "return move if something to attack" in {
-    implicit val board = emptyBoard.set(Address("B7").toOption.get, Pawn(true)).toOption.get.board
+    implicit val board = emptyBoard.set(Address("B7").toOption.get, Pawn(isWhite = false)).toOption.get.board
 
-    DiagonalPath(length = 1, location = 0, endsWithAttack = true, attackOnly = true).toSet shouldBe Seq(9).toSet
+    DiagonalPath(length = 1, location = 0, attack = true).toSet shouldBe Seq(9).toSet
   }
 
 }
