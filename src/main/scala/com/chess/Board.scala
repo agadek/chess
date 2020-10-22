@@ -52,11 +52,7 @@ case class Board(
 
     board(address.filedIndex).toRight(EmptyAddress(address))
       .flatMap {
-        case piece if piece.isWhite == player.isWhite =>
-          println(piece.isWhite)
-          println(player.isWhite)
-          println(piece.isWhite == player.isWhite)
-          Right(piece)
+        case piece if piece.isWhite == player.isWhite => Right(piece)
         case piece                                    => Left(NotYoursPiece(address, player, piece))
       }
   }
