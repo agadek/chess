@@ -75,7 +75,7 @@ object Board {
 
   private def pawns(white: Boolean): Vector[Option[Piece]] = Vector.fill(8)(Pawn(white)).map(Option(_))
 
-  private def figures(white: Boolean): Vector[Option[Piece]] = Vector(Rook(white), Bishop(white), Knight(white), Queen(white), King(white), Knight(white), Bishop(white), Rook(white)).map(Option(_))
+  private def figures(white: Boolean): Vector[Option[Piece]] = Vector(Rook(white), Knight(white), Bishop(white), Queen(white), King(white), Bishop(white), Knight(white), Rook(white)).map(Option(_))
 
   def build() =
     Board(board =

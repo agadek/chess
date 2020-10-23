@@ -13,7 +13,7 @@ object BoardView {
   }
 
   def kiaView(board: Board, player: Player): String =
-    s"$player KIA: " +
+    s"$player KIA:" +
       (if(player.isWhite) board.kiaWhites
       else board.kiaBlack)
         .map(PieceView(_)).mkString(" ")

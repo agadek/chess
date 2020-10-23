@@ -30,14 +30,14 @@ class BoardViewSpec extends AnyFlatSpec {
 
     BoardView(board).removeBackground shouldBe
       """-ABCDEFGH-
-        |8rbnqknbr8
+        |8rnbqkbnr8
         |7pppppppp7
         |6        6
         |5        5
         |4        4
         |3        3
         |2PPPPPPPP2
-        |1RBNQKNBR1
+        |1RNBQKBNR1
         |-ABCDEFGH-""".stripMargin
   }
 

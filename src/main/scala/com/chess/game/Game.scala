@@ -10,7 +10,21 @@ case class Game(currentPlayer: Player = White, board: Board = Board.build()) {
       .leftMap(BoardErrorWrapper)
       .map(newBoard => this.copy(currentPlayer = currentPlayer.switch, newBoard))
 
-  def currentPlayerHasLegalMoves: Boolean = true
+  def currentPlayerHasLegalMoves: Boolean = {
+    val playersPieces = board.board.zipWithIndex.collect {
+      case (Some(piece), index) if piece.isWhite == currentPlayer.isWhite => piece -> index
+    }
+    playersPieces.exists { case (piece, index) =>
+      val availableMoves = piece.availableMoves(index)(board.board)
+      availableMoves.exists(move =>
+        (for {
+          from     <- Address(index)
+          to       <- Address(move)
+          newBoard <- board.move(from, to)(currentPlayer)
+        } yield newBoard).isRight
+      )
+    }
+  }
 }
 
 
