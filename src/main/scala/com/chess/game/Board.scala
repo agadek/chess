@@ -17,10 +17,7 @@ case class Board(
 
   def clear(address: Address): Either[EmptyAddress, Board] =
     board(address.filedIndex).toRight(EmptyAddress(address))
-      .map { piece =>
-        if (piece.isWhite) this.copy(board = board.updated(address.filedIndex, None), kiaWhites = kiaWhites :+ piece)
-        else this.copy(board = board.updated(address.filedIndex, None), kiaBlack = kiaBlack :+ piece)
-      }
+      .map(_ => this.copy(board = board.updated(address.filedIndex, None)))
 
   def kill(address: Address): Board = board(address.filedIndex) match {
       case Some(piece) if piece.isWhite => this.copy(board = board.updated(address.filedIndex, None), kiaWhites = kiaWhites :+ piece)

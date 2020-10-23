@@ -1,6 +1,6 @@
 package com.chess.view
 
-import com.chess.game.Board
+import com.chess.game.{Board, Player}
 import com.chess.pieces.Piece
 
 import scala.Console.{BOLD, RESET, REVERSED}
@@ -11,6 +11,12 @@ object BoardView {
     board.board.grouped(8).zipWithIndex.foreach { case (pawns, row) => view.setRow(pawns, row) }
     view.print
   }
+
+  def kiaView(board: Board, player: Player): String =
+    s"$player KIA: " +
+      (if(player.isWhite) board.kiaWhites
+      else board.kiaBlack)
+        .map(PieceView(_)).mkString(" ")
 }
 
 class BoardView {

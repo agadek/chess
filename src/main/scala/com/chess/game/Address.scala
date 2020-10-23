@@ -32,4 +32,15 @@ object Address {
 
     Either.cond(cond(address._1) && cond(address._2), Address(address._1, address._2), InvalidAddress(s"${address._1},${address._2}"))
   }
+
+  private val inputR = "(\\w{2})[ ]*(\\w{2})".r
+  def parseMoveInput(string: String): Either[InvalidAddress, (Address, Address)] =
+    string match {
+      case inputR(a, b) =>
+        for {
+        from <- Address(a)
+        to   <- Address(b)
+      } yield from -> to
+      case s => Left(InvalidAddress(s))
+    }
 }
